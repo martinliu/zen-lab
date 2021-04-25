@@ -1,11 +1,11 @@
 variable "vcenter_username" {
-  description = "Database administrator username"
+  description = "VCenter administrator username"
   type        = string
   sensitive   = true
 }
 
 variable "vcenter_password" {
-  description = "Database administrator password"
+  description = "VCenter administrator password"
   type        = string
   sensitive   = true
 }
