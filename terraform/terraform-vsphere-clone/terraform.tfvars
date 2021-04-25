@@ -1,5 +1,5 @@
 vsphere_user = "administrator@devopscoach.local"
-vsphere_password = "DevOps@7890"
+vsphere_password = "XXXXXXXXXXXXX"
 vsphere_server = "192.168.100.12"
 vsphere_datacenter = "Zen-DC"
 vsphere_datastore = "datastore2"
