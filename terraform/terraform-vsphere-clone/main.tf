@@ -30,12 +30,13 @@ data "vsphere_virtual_machine" "template" {
 }
 
 resource "vsphere_virtual_machine" "cloned_virtual_machine" {
-  name             = "${var.vsphere_virtual_machine_name}"
+  name             = "es-${count.index}"
   resource_pool_id = "${data.vsphere_host.host.resource_pool_id}"
   datastore_id     = "${data.vsphere_datastore.datastore.id}"
+  count = 12
 
   num_cpus = "${data.vsphere_virtual_machine.template.num_cpus}"
-  memory   = "${data.vsphere_virtual_machine.template.memory}"
+  memory   = 2048
   guest_id = "${data.vsphere_virtual_machine.template.guest_id}"
 
   scsi_type = "${data.vsphere_virtual_machine.template.scsi_type}"
