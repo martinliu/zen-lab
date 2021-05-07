@@ -23,7 +23,7 @@ data "vsphere_network" "network" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 data "vsphere_virtual_machine" "template" {
-  name          = "centos7-temp"
+  name          = "centos8"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
@@ -32,7 +32,7 @@ resource "vsphere_virtual_machine" "Web" {
   resource_pool_id = data.vsphere_host.host.resource_pool_id
   name             = "Web-${count.index}"
   datastore_id     = data.vsphere_datastore.datastore.id
-  count = 10
+  count = 1
   num_cpus = 2
   memory   = 4096
   guest_id = data.vsphere_virtual_machine.template.guest_id
@@ -47,5 +47,10 @@ resource "vsphere_virtual_machine" "Web" {
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
   }
-
+  
+output "virtual_machine_ip_address" {
+   value = {
+     for virtual_machine in vsphere_virtual_machine.Web:
+     virtual_machine.name  => virtual_machine.default_ip_address
+     }
 }
