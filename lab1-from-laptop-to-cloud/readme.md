@@ -252,7 +252,7 @@ ansible multi -b -B 3600 -P 0 -a "yum -y update"
 ansible multi -b -m async_status -a "jid=169825235950.3572"
 ```
 
-操心系统维护工作：查看日志的方法
+查看日志的方法
 
 ```
 ansible multi -b -a "tail /var/log/messages"

@@ -23,7 +23,7 @@ data "vsphere_network" "network" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 data "vsphere_virtual_machine" "template" {
-  name          = "centos8"
+  name          = "centos7-temp"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
@@ -32,9 +32,10 @@ resource "vsphere_virtual_machine" "Web" {
   resource_pool_id = data.vsphere_host.host.resource_pool_id
   name             = "Web-${count.index}"
   datastore_id     = data.vsphere_datastore.datastore.id
+
   count = 1
-  num_cpus = 2
-  memory   = 4096
+  num_cpus = 1
+  memory   = 512
   guest_id = data.vsphere_virtual_machine.template.guest_id
 
   network_interface {
@@ -46,11 +47,12 @@ resource "vsphere_virtual_machine" "Web" {
   }
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
-  }
-  
-output "virtual_machine_ip_address" {
-   value = {
-     for virtual_machine in vsphere_virtual_machine.Web:
-     virtual_machine.name  => virtual_machine.default_ip_address
-     }
+    # customize {
+    #   linux_options {
+    #     host_name = "terraform-test"
+    #     domain    = "test.internal"
+    #   }
+    # }
+
+}
 }

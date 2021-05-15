@@ -1,0 +1,13 @@
+---
+- hosts: control
+  become: true
+  tasks:
+    - name: install tools
+      apt: 
+        pkg:
+        - git
+        - wget
+        - curl
+        state: present 
+        update_cache: yes
+      # apt: name=[apache, libapache2-mod-wsgi, python-pip, python-virtualenv] state=present update_cache=yes
