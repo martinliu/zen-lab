@@ -19,7 +19,48 @@
           enabled: yes
 
       - name: ensure mod_wsgi enabled
-        apache2_module: state=present name=wsgi
+        apache2_module: 
+          state: present 
+          name: wsgi
+        # 如果由于任何元婴 wsgi 模块启用状态发生了变化，需要通知触发 handler 执行重启生效的动作，否则略过 
+        notify: restart apache2
+      
+      # 从当前目录下复制 app/ 目录 到服务器端的目录目录 目录 - 新目录 
+      - name: copy demo app source
+        copy:
+          src: demo/app/
+          dest: /var/www/demo
+          mode: 0755
+        # 如果这个应用程序的源文件变化了，复制后重启 appche2
+        notify: restart apache2
+
+      - name: copy apache virtual host config
+        copy:
+          src: demo/demo.conf
+          dest: /etc/apache2/sites-available
+          mode: 0755
+        # 如果 apache 虚拟目录的配置变化了需要重启 apache2 服务
+        notify: restart apache2
+
+      - name: setup python virtualenv
+        pip:
+          requirements: /var/www/demo/requirements.txt
+          virtualenv: /var/www/demo/.venv
+        # 添加中国的 pip 镜像 才能安装成功
+          extra_args: -i https://pypi.tuna.tsinghua.edu.cn/simple
+        notify: restart apache2
+
+      - name: de-activate default apache site
+        file:
+          path: /etc/apache2/sites-enabled/000-default.conf
+          state: absent
+        notify: restart apache2
+
+      - name: activate demo app site
+        file:
+          src: /etc/apache2/sites-available/demo.conf
+          dest: /etc/apache2/sites-enabled/demo.conf
+          state: link
         notify: restart apache2
 
     handlers:

@@ -1,0 +1,6 @@
+[elasticstack7]
+name=Proxy Elastic Stack $releasever - $basearch
+baseurl=http://192.168.100.30/repository/proxy-es7/
+failovermethod=priority
+enabled=1
+gpgcheck=0

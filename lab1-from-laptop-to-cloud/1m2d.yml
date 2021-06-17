@@ -1,0 +1,37 @@
+- name: 1 masters
+  hosts: es1m
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_version: 7.13.2
+    es_add_repository: false
+    es_data_dirs:
+      - "/opt/elasticsearch/data"
+    es_log_dir: "/opt/elasticsearch/logs"
+    es_config:
+      cluster.name: "1m-2d-cluster"
+      cluster.initial_master_nodes: "192.168.100.177"
+      discovery.seed_hosts: "192.168.100.177"
+      http.host: 0.0.0.0
+      node.data: false
+      node.master: true
+      transport.host: 0.0.0.0
+
+- name: 2 data
+  hosts: es2d
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_version: 7.13.2
+    es_add_repository: false
+    es_data_dirs:
+      - "/opt/elasticsearch/data"
+    es_log_dir: "/opt/elasticsearch/logs"
+    es_config:
+      cluster.name: "1m-2d-cluster"
+      cluster.initial_master_nodes: "192.168.100.177"
+      discovery.seed_hosts: "192.168.100.177"
+      http.host: 0.0.0.0
+      node.data: true
+      node.master: false
+      transport.host: 0.0.0.0

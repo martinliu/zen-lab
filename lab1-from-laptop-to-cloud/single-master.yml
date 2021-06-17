@@ -1,0 +1,19 @@
+- name: Single master elasticsearch cluster
+  hosts: es1s
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_version: 7.13.2
+    es_add_repository: false
+    es_data_dirs:
+      - "/opt/elasticsearch/data"
+    es_log_dir: "/opt/elasticsearch/logs"
+    es_config:
+      node.name: "node1"
+      cluster.name: "elk4devops"
+      discovery.type: single-node
+      http.host: 0.0.0.0
+      node.data: true
+      node.master: true
+    es_api_basic_auth_username: elastic
+    es_api_basic_auth_password: changeme

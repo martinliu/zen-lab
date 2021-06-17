@@ -56,3 +56,30 @@ ansible-playbook loadbalancer.yml
         name: mysql 
         state: started 
         enabled: yes
+
+### support playbook 1 stack restart
+
+编写一个 stack restart playbook
+
+### 服务变更依赖重启生效
+
+编写 webserver 的 handler 模块 和 nitify 的调用点
+
+### 部署 Demo 应用
+
+修改 webserver.yml 增加 复制文件和目录的 task
+
+      - name: setup python virtualenv
+        pip:
+          requirements: /var/www/demo/requirements.txt
+          virtualenv: /var/www/demo/.venv
+        # 添加中国的 pip 镜像 才能安装成功
+          extra_args: -i https://pypi.tuna.tsinghua.edu.cn/simple
+        notify: restart apache2
+
+### 进一步配置相关文件
+
+讲解 file 模块文件用法
+
+解释 apache2 的 avabilite folder enabled folder ，创建符号链接
+

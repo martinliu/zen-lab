@@ -1,0 +1,82 @@
+- name: 3 masters
+  hosts: es3m
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_version: 7.13.2
+    es_add_repository: false
+    es_data_dirs:
+      - "/opt/elasticsearch/data"
+    es_log_dir: "/opt/elasticsearch/logs"
+    es_config:
+      cluster.name: "elk4devops"
+      cluster.initial_master_nodes: ["192.168.100.123","192.168.100.124","192.168.100.121"]
+      discovery.seed_hosts: ["192.168.100.123","192.168.100.124","192.168.100.121"]
+      http.host: 0.0.0.0
+      http.port: 9200
+      node.data: false
+      node.master: true
+      transport.host: 0.0.0.0
+      transport.port: 9300
+      bootstrap.memory_lock: false
+    es_heap_size: "512m"
+
+- name: 2 hot data
+  hosts: es2hd
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_version: 7.13.2
+    es_add_repository: false
+    es_data_dirs:
+      - "/opt/elasticsearch/data"
+    es_log_dir: "/opt/elasticsearch/logs"
+    es_config:
+      cluster.name: "elk4devops"
+      discovery.seed_hosts: ["192.168.100.123","192.168.100.124","192.168.100.121"]
+      http.host: 0.0.0.0
+      node.data: true
+      node.master: false
+      transport.host: 0.0.0.0
+      node.ingest: true
+      node.attr.my_node_type: hot
+
+- name: 2 warm data
+  hosts: es2wd
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_version: 7.13.2
+    es_add_repository: false
+    es_data_dirs:
+      - "/opt/elasticsearch/data"
+    es_log_dir: "/opt/elasticsearch/logs"
+    es_config:
+      cluster.name: "elk4devops"
+      discovery.seed_hosts: ["192.168.100.123","192.168.100.124","192.168.100.121"]
+      http.host: 0.0.0.0
+      node.data: true
+      node.master: false
+      transport.host: 0.0.0.0
+      node.ingest: true
+      node.attr.my_node_type: warm
+
+- name: 2 cold data
+  hosts: es2cd
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_version: 7.13.2
+    es_add_repository: false
+    es_data_dirs:
+      - "/opt/elasticsearch/data"
+    es_log_dir: "/opt/elasticsearch/logs"
+    es_config:
+      cluster.name: "elk4devops"
+      discovery.seed_hosts: ["192.168.100.123","192.168.100.124","192.168.100.121"]
+      http.host: 0.0.0.0
+      node.data: true
+      node.master: false
+      transport.host: 0.0.0.0
+      node.ingest: true
+      node.attr.my_node_type: cold

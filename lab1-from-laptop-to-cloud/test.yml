@@ -1,0 +1,10 @@
+---
+- hosts: icaes
+  become: true
+  tasks:
+    - name: add epel
+      yum_repository:
+        name: epel
+        description: EPEL YUM repo tencent
+        baseurl: http://192.168.100.198:8081/repository/epel/$releasever/Everything/$basearch/
+        gpgcheck: no

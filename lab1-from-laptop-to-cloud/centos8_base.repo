@@ -1,0 +1,53 @@
+# CentOS-Base.repo
+#
+# The mirror system uses the connecting IP address of the client and the
+# update status of each mirror to pick mirrors that are updated to and
+# geographically close to the client.  You should use this for CentOS updates
+# unless you are manually picking other mirrors.
+#
+# If the mirrorlist= does not work for you, as a fall back you can try the
+# remarked out baseurl= line instead.
+#
+#
+
+[BaseOS]
+name=Local-proxy centos OS - $basearch
+baseurl=http://192.168.100.198:8081/repository/tencent-yum-miniro/$releasever/BaseOS/$basearch/os/
+enabled=1
+gpgcheck=1
+gpgkey=http://192.168.100.198:8081/repository/tencent-yum-miniro/RPM-GPG-KEY-CentOS-Official
+
+[centosplus]
+name=Local-proxy centosplus - $basearch
+baseurl=http://192.168.100.198:8081/repository/tencent-yum-miniro/$releasever/centosplus/$basearch/os/
+enabled=0
+gpgcheck=1
+gpgkey=http://192.168.100.198:8081/repository/tencent-yum-miniro/RPM-GPG-KEY-CentOS-Official
+
+[extras]
+name=Local-proxy centos extras - $basearch
+baseurl=http://192.168.100.198:8081/repository/tencent-yum-miniro/$releasever/extras/$basearch/os/
+enabled=1
+gpgcheck=1
+gpgkey=http://192.168.100.198:8081/repository/tencent-yum-miniro/RPM-GPG-KEY-CentOS-Official
+
+[fasttrack]
+name=Local-proxy centos fasttrack - $basearch
+baseurl=http://192.168.100.198:8081/repository/tencent-yum-miniro/$releasever/fasttrack/$basearch/os/
+enabled=0
+gpgcheck=1
+gpgkey=http://192.168.100.198:8081/repository/tencent-yum-miniro/RPM-GPG-KEY-CentOS-Official
+
+[AppStream]
+name=Local-proxy centos AppStream - $basearch
+baseurl=http://192.168.100.198:8081/repository/tencent-yum-miniro/$releasever/AppStream/$basearch/os/
+enabled=0
+gpgcheck=1
+gpgkey=http://192.168.100.198:8081/repository/tencent-yum-miniro/RPM-GPG-KEY-CentOS-Official
+
+[PowerTools]
+name=Local-proxy centos PowerTools - $basearch
+baseurl=http://192.168.100.198:8081/repository/tencent-yum-miniro/$releasever/PowerTools/$basearch/os/
+enabled=0
+gpgcheck=1
+gpgkey=http://192.168.100.198:8081/repository/tencent-yum-miniro/RPM-GPG-KEY-CentOS-Official

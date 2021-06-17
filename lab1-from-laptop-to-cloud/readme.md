@@ -297,3 +297,37 @@ Ansible 的 SSH 连接历史
 * https://www.digitalocean.com/community/tutorials/an-introduction-to-configuration-management
 
 
+
+[os]
+name=Proxy centos os - $basearch
+baseurl=http://mirrors.cloud.tencent.com/centos/$releasever/os/$basearch/
+enabled=1
+gpgcheck=0
+
+[updates]
+name=Proxy centos updates - $basearch
+baseurl=http://mirrors.cloud.tencent.com/centos/$releasever/updates/$basearch/
+enabled=1
+gpgcheck=0
+
+[extras]
+name=Proxy centos extras - $basearch
+baseurl=http://mirrors.cloud.tencent.com/centos/$releasever/extras/$basearch/
+enabled=1
+gpgcheck=0
+
+
+[epel]
+name=Proxy EPEL $releasever - $basearch
+baseurl=http://mirrors.cloud.tencent.com/epel/$releasever/$basearch/
+failovermethod=priority
+enabled=1
+gpgcheck=0
+
+
+[Elastic Stack]
+name=Proxy Elastic Stack $releasever - $basearch
+baseurl=http://192.168.100.30/repository/proxy-es7/
+failovermethod=priority
+enabled=1
+gpgcheck=0

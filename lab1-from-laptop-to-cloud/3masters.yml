@@ -1,0 +1,18 @@
+- name: 3 masters elasticsearch cluster
+  hosts: es3m
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_version: 7.13.2
+    es_add_repository: false
+    es_data_dirs:
+      - "/opt/elasticsearch/data"
+    es_log_dir: "/opt/elasticsearch/logs"
+    es_config:
+      cluster.name: "elk4devops"
+      cluster.initial_master_nodes: "192.168.100.170"
+      http.host: 0.0.0.0
+      node.data: true
+      node.master: true
+    es_api_basic_auth_username: elastic
+    es_api_basic_auth_password: changeme
