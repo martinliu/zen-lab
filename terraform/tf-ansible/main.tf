@@ -6,7 +6,7 @@ provider "vsphere" {
   allow_unverified_ssl = true
 }
 
-#Data Sources
+# Data Sources
 data "vsphere_datacenter" "dc" {
   name = "Zen-DC"
 }
