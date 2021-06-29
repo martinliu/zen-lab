@@ -1,4 +1,5 @@
-- name: 1 masters
+# 一个单独的 master 服务器 + 两个数据节点 
+- name: 1 master
   hosts: es1m
   roles:
     - role: elastic.elasticsearch

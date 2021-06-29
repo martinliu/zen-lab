@@ -1,9 +1,12 @@
+# 声明使用 vsphere provider
 provider "vsphere" {
   user           = var.vsphere_user
   password       = var.vsphere_password
   vsphere_server = var.vsphere_server
   allow_unverified_ssl = true
 }
+
+# 设置 vSphere 环境所需要的必要配置信息
 data "vsphere_datacenter" "dc" {
   name = var.vsphere_datacenter
 }
@@ -31,7 +34,7 @@ resource "vsphere_folder" "folder" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
-# 创建 master 节点需要的虚拟机
+# 创建  elasticsearch 集群中 master 节点需要的虚拟机
 resource "vsphere_virtual_machine" "master_nodes" {
   name             = "master-${count.index}"
   resource_pool_id = data.vsphere_host.host.resource_pool_id

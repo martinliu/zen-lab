@@ -5,13 +5,13 @@ ES_PORT=$2
 
 echo "elasticsearch server is $ES_HOST:$ES_PORT"
 
-echo "downloading data from github"
+# echo "downloading data from github"
 
-wget https://raw.githubusercontent.com/zq2599/blog_demos/master/files/shakespeare_only_one_type.json.tar.gz
+# wget https://raw.githubusercontent.com/zq2599/blog_demos/master/files/shakespeare_only_one_type.json.tar.gz
 
-echo "downloading data success, uncompressing ..."
+# echo "downloading data success, uncompressing ..."
 
-tar -zxf shakespeare_only_one_type.json.tar.gz
+# tar -zxf shakespeare_only_one_type.json.tar.gz
 
 echo "creating index ..."
 

@@ -1,0 +1,42 @@
+---
+- name: Replace mirror repo #替换所有软仓库 repo
+  hosts: app
+  become: true
+  tasks:
+  - name: Remove all old repos
+    shell: "rm -rf /etc/yum.repos.d/*"
+  - name: Add multiple repositories into the same file (1/4)
+    yum_repository:
+      name: baseos
+      description: Tsinghua Tuna centos $releasever baseos
+      file: my_repos
+      baseurl: http://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/BaseOS/$basearch/os/
+      gpgcheck: no
+  - name: Add multiple repositories into the same file (2/4)
+    yum_repository:
+      name: extras
+      description: Tsinghua Tuna centos $releasever extras
+      file: my_repos
+      baseurl: http://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/extras/$basearch/os/
+      gpgcheck: no
+  - name: Add multiple repositories into the same file (3/4)
+    yum_repository:
+      name: AppStream
+      description: Tsinghua Tuna centos $releasever AppStream
+      file: my_repos
+      baseurl: http://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/AppStream/$basearch/os/
+      gpgcheck: no
+  - name: Add multiple repositories into the same file (4/4)
+    yum_repository:
+      name: epel
+      description: Tsinghua Tuna centos $releasever epel
+      file: my_repos
+      baseurl: https://mirrors.tuna.tsinghua.edu.cn/epel/$releasever/Everything/$basearch/
+      gpgcheck: no
+    notify: yum-clean-metadata
+  # Handler showing how to clean yum metadata cache
+  handlers:
+    - name: yum-clean-metadata
+      command: yum clean metadata
+      args:
+        warn: no

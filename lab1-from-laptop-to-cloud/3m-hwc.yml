@@ -1,3 +1,5 @@
+# 部署 3 个 master 节点
+# 每个虚拟机的配置比较低
 - name: 3 masters
   hosts: es3m
   roles:
@@ -10,8 +12,8 @@
     es_log_dir: "/opt/elasticsearch/logs"
     es_config:
       cluster.name: "elk4devops"
-      cluster.initial_master_nodes: ["192.168.100.123","192.168.100.124","192.168.100.121"]
-      discovery.seed_hosts: ["192.168.100.123","192.168.100.124","192.168.100.121"]
+      cluster.initial_master_nodes: ["192.168.100.112","192.168.100.130","192.168.100.116"]
+      discovery.seed_hosts: ["192.168.100.112","192.168.100.130","192.168.100.116"]
       http.host: 0.0.0.0
       http.port: 9200
       node.data: false
@@ -21,6 +23,7 @@
       bootstrap.memory_lock: false
     es_heap_size: "512m"
 
+# 部署 2 个热数据节点
 - name: 2 hot data
   hosts: es2hd
   roles:
@@ -33,7 +36,7 @@
     es_log_dir: "/opt/elasticsearch/logs"
     es_config:
       cluster.name: "elk4devops"
-      discovery.seed_hosts: ["192.168.100.123","192.168.100.124","192.168.100.121"]
+      discovery.seed_hosts: ["192.168.100.112","192.168.100.130","192.168.100.116"]
       http.host: 0.0.0.0
       node.data: true
       node.master: false
@@ -41,6 +44,7 @@
       node.ingest: true
       node.attr.my_node_type: hot
 
+# 部署 2 个温数据节点
 - name: 2 warm data
   hosts: es2wd
   roles:
@@ -53,7 +57,7 @@
     es_log_dir: "/opt/elasticsearch/logs"
     es_config:
       cluster.name: "elk4devops"
-      discovery.seed_hosts: ["192.168.100.123","192.168.100.124","192.168.100.121"]
+      discovery.seed_hosts: ["192.168.100.112","192.168.100.130","192.168.100.116"]
       http.host: 0.0.0.0
       node.data: true
       node.master: false
@@ -61,10 +65,11 @@
       node.ingest: true
       node.attr.my_node_type: warm
 
+# 部署 2 个冷数据节点
 - name: 2 cold data
   hosts: es2cd
   roles:
-    - role: elastic.elasticsearch
+    - elastic.elasticsearch
   vars:
     es_version: 7.13.2
     es_add_repository: false
@@ -73,7 +78,7 @@
     es_log_dir: "/opt/elasticsearch/logs"
     es_config:
       cluster.name: "elk4devops"
-      discovery.seed_hosts: ["192.168.100.123","192.168.100.124","192.168.100.121"]
+      discovery.seed_hosts: ["192.168.100.112","192.168.100.130","192.168.100.116"]
       http.host: 0.0.0.0
       node.data: true
       node.master: false

@@ -1,0 +1,8 @@
+[nexusrepo]
+name=Nexus Repository
+baseurl=http://192.168.60.1/repository/tuna-yum-proxy/$releasever/os/$basearch/
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-8
+repo_gpgcheck=0
+priority=1

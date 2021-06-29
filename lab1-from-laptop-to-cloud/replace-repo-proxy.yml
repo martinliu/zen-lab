@@ -1,0 +1,50 @@
+---
+# 替换所有软仓库 repo 这里用的是 vsphere 上的 Nexus 服务器地址 下面需要针对 CentOS7 的 repo 重新整理一次
+- name: Replace mirror repo 
+  hosts: es
+  become: true
+  tasks:
+  - name: Remove all old repos
+    shell: "rm -rf /etc/yum.repos.d/*"
+  - name: Add multiple repositories into the same file (1/4)
+    yum_repository:
+      name: baseos
+      description: Tsinghua Tuna centos $releasever baseos
+      file: os_repos
+      baseurl: http://192.168.100.30/repository/tuna-yum-proxy/$releasever/BaseOS/$basearch/os/
+      gpgcheck: no
+  - name: Add multiple repositories into the same file (2/4)
+    yum_repository:
+      name: extras
+      description: Tsinghua Tuna centos $releasever extras
+      file: os_repos
+      baseurl: http://192.168.100.30/repository/tuna-yum-proxy/$releasever/extras/$basearch/os/
+      gpgcheck: no
+  # - name: Add multiple repositories into the same file (3/4) AppStream not exist in Centos 7 
+  #   yum_repository:
+  #     name: AppStream
+  #     description: Tsinghua Tuna centos $releasever AppStream
+  #     file: os_repos
+  #     baseurl: http://192.168.100.30/repository/tuna-yum-proxy/$releasever/AppStream/$basearch/os/
+  #     gpgcheck: no
+  - name: Add multiple repositories into the same file (4/4)
+    yum_repository:
+      name: epel
+      description: Tsinghua Tuna centos $releasever epel
+      file: os_repos
+      baseurl: http://192.168.100.30/repository/epel/$releasever/Everything/$basearch/
+      gpgcheck: no
+  - name: Add Elastic Stack Proxy repo v7.x
+    yum_repository:
+      name: elastic7x
+      description: Tencent Elastic Stack repo
+      file: os_repos
+      baseurl: http://192.168.100.30/repository/proxy-es7/
+      gpgcheck: no
+    notify: yum-clean-metadata
+  # Handler showing how to clean yum metadata cache
+  handlers:
+    - name: yum-clean-metadata
+      command: yum clean metadata
+      args:
+        warn: no
